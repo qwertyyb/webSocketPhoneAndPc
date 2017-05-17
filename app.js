@@ -60,7 +60,9 @@ io.on('connection', function (socket) {
       var room = rooms.find(function(room) {
         return room.id == _this.id
       })
-      
+      if(!room){
+        return;
+      }
       room.devices.map(function(deviceid){
         _this.disconnect(true)
       })
