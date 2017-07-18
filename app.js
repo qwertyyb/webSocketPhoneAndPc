@@ -4,6 +4,7 @@ var http = require('http').Server(app)
 var path = require('path')
 var io = require('socket.io')(http)
 var url = require('url')
+var ip = require('./ip')
 
 app.use(express.static('www'))
 
@@ -11,7 +12,7 @@ app.use(express.static('www'))
 app.get('/', function (req, res) {
   res.sendFile(path.resolve(__dirname, 'www/room.html'))
 })
-// 设备路由，如果扫码登录，则加入相应的房间，如果房间信息不正确，则回应杀错误信息
+// 设备路由，如果扫码登录，则加入相应的房间，如果房间信息不正确，则回应错误信息
 app.get('/device', function (req, res) {
   var roomid = req.query.roomid
   var room = rooms.find(function(room){
@@ -82,6 +83,7 @@ io.on('connection', function (socket) {
 
       var room = {id: this.id, devices: []}
       rooms.push(room)
+      this.emit('ip', ip())
     }else{
       var roomid = url.parse(this.request.headers.referer, true).query.roomid
       var room = rooms.find(function(room) {

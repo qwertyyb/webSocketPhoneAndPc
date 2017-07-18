@@ -18,6 +18,9 @@ roomsocket.on('rotate3d', function (res) {
 
 roomsocket.on('device', createBox)
 
+roomsocket.on('ip', function(ip){
+  new QRCode(document.getElementById('qrcode'), "http://"+ip[ip.length-1]+":8080/device?roomid=" + roomsocket.id)
+})
 roomsocket.on('remove', function(id){
   var section = document.getElementsByTagName('section')[0]
   var box = document.getElementById('adj-'+id)
@@ -41,6 +44,7 @@ function createBox(id){
   document.getElementsByTagName('section')[0].appendChild(box)
 }
 
-roomsocket.on('connect', function(){
-  new QRCode(document.getElementById('qrcode'), "http://192.168.1.40:8080/device?roomid=" + roomsocket.id)
+roomsocket.on('connect', function (){
+  console.log('已连接')
 })
+
