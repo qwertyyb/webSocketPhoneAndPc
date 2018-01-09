@@ -8,6 +8,7 @@ html, body{
 }
 h1 {
 	text-align: center;
+	height: 60px;
 }
 .app {
 	display: flex;
@@ -15,6 +16,7 @@ h1 {
 
 #qrcode {
 	flex: 1;
+	height: calc(100vh - 60px);
 	display: flex;
 	align-items: center;
 	justify-content: center;
