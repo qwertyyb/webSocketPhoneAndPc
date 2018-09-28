@@ -18,8 +18,12 @@ roomsocket.on('rotate3d', function (res) {
 
 roomsocket.on('device', createBox)
 
-roomsocket.on('ip', function(ip){
-  new QRCode(document.getElementById('qrcode'), "http://"+ip[ip.length-1]+":8080/device?roomid=" + roomsocket.id)
+roomsocket.on('qrcode', function(ip){
+  var href = location.href
+  if (location.hostname === 'localhost') {
+    href = href.replace('localhost', ip[ip.length - 1])
+  }
+  new QRCode(document.getElementById('qrcode'), href + "device?roomid=" + roomsocket.id)
 })
 roomsocket.on('remove', function(id){
   var section = document.getElementsByTagName('section')[0]

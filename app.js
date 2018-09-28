@@ -83,13 +83,13 @@ io.on('connection', function (socket) {
 
       var room = {id: this.id, devices: []}
       rooms.push(room)
-      this.emit('ip', ip())
+      this.emit('qrcode', ip())
     }else{
       var roomid = url.parse(this.request.headers.referer, true).query.roomid
       var room = rooms.find(function(room) {
         return room.id = roomid
       })
-      if( room ){
+      if( room && !~room.devices.indexOf(this.id)){
         console.log('新设备：', this.id, '已进入房间:', roomid)
         room.devices.push(this.id)
 
