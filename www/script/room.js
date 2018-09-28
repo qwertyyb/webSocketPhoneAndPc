@@ -34,10 +34,16 @@ function createBox(id){
   box.setAttribute('class', "adjust")
   box.setAttribute('id','adj-'+id)
   box.innerHTML = '<div class="box" id="'+id+'">\
-      <figure class="front">前</figure>\
-      <figure class="back">后</figure>\
+      <figure class="front">\
+        <img src="../images/front.jpg" />\
+      </figure>\
+      <figure class="back">\
+        <img src="../images/back.jpg" />\
+      </figure>\
       <figure class="right">右</figure>\
-      <figure class="left">左</figure>\
+      <figure class="left">\
+        <img src="../images/left.jpg" />\
+      </figure>\
       <figure class="top">顶</figure>\
       <figure class="bottom">底</figure>\
     </div>'

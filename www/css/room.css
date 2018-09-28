@@ -48,16 +48,16 @@ h1 {
 	text-align: center;
 }
 .box .front, .box .back{
-	width: 350px;
-	height: 600px;
+	width: 328px;
+	height: 648px;
 }
 .box .right, .box .left {
 	width: 50px;
-	height: 600px;
+	height: 648px;
 	left: 150px;
 }
 .box .top, .box .bottom {
-	width: 350px;
+	width: 328px;
 	height: 50px;
 	top: 275px;
 }
@@ -71,10 +71,10 @@ h1 {
      transform: translateZ( 25px );
 }
 .box .back   { /*front面沿着x轴旋转180度，做后面*/
-   transform: rotateX( -180deg ) translateZ(  25px );
+   transform: rotateY(-180deg) translateZ(25px);
 }
 .box .right {                 /*这个距离乘以2为左右面的距离*/
-   transform: rotateY(   90deg ) translateZ( 175px );
+   transform: rotateY(   90deg ) translateZ( 150px );
 }
 .box .left {  /*front面沿着y轴旋转90度，做侧面*/
    transform: rotateY(  -90deg ) translateZ( 175px );
@@ -83,5 +83,5 @@ h1 {
    transform: rotateX(   90deg ) translateZ( 300px );
 }
 .box .bottom { /*front面沿着x轴旋转90度，做底面*/
-   transform: rotateX(  -90deg ) translateZ( 300px );
+   transform: rotateX(  -90deg ) translateZ( 348px );
 }
