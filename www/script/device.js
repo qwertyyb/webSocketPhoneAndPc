@@ -41,6 +41,9 @@ function getAcQuaternion( _w, _x, _y, _z ) {  //我的四元数转旋转轴和�
 
 }
 
+document.querySelector('#permission-btn').addEventListener('click', (event) => {
+  window.DeviceOrientationEvent.requestPermission()
+})
 
 window.addEventListener('deviceorientation', function(evt){
   var qu = getQuaternion(evt.alpha,evt.beta,evt.gamma);

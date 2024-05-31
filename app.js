@@ -5,6 +5,7 @@ var path = require('path')
 var io = require('socket.io')(http)
 var url = require('url')
 var ip = require('./ip')
+const robotjs = require('../robotjs')
 
 app.use(express.static('www'))
 
@@ -44,32 +45,32 @@ io.on('connection', function (socket) {
    */
   socket.on('disconnect', function () {
     // 根据roomid是否存在，判断是房间断开或是设备断开
-    var roomid = url.parse(this.request.headers.referer, true).query.roomid
-    if (roomid) {
-      // 设备连接关闭
-      console.log('设备：', this.id, '已离线')
-      this.broadcast.to(roomid).emit('remove', this.id)
-      var room = rooms.find(function(room) {
-        return room.id == roomid
-      })
-      var deviceIndex = room.devices.indexOf(this.id)
-      room.devices.splice(deviceIndex, 1)
-    }else {
-      // 房间连接关闭
-      console.log('房间已关闭')
-      var _this = this
-      var room = rooms.find(function(room) {
-        return room.id == _this.id
-      })
-      if(!room){
-        return;
-      }
-      room.devices.map(function(deviceid){
-        _this.disconnect(true)
-      })
-      var roomIndex = rooms.indexOf(room)
-      rooms.splice(roomIndex, 1)
-    }
+    // var roomid = url.parse(this.request.headers.referer, true).query.roomid
+    // if (roomid) {
+    //   // 设备连接关闭
+    //   console.log('设备：', this.id, '已离线')
+    //   this.broadcast.to(roomid).emit('remove', this.id)
+    //   var room = rooms.find(function(room) {
+    //     return room.id == roomid
+    //   })
+    //   var deviceIndex = room.devices.indexOf(this.id)
+    //   room.devices.splice(deviceIndex, 1)
+    // }else {
+    //   // 房间连接关闭
+    //   console.log('房间已关闭')
+    //   var _this = this
+    //   var room = rooms.find(function(room) {
+    //     return room.id == _this.id
+    //   })
+    //   if(!room){
+    //     return;
+    //   }
+    //   room.devices.map(function(deviceid){
+    //     _this.disconnect(true)
+    //   })
+    //   var roomIndex = rooms.indexOf(room)
+    //   rooms.splice(roomIndex, 1)
+    // }
     
   })
 
@@ -113,6 +114,38 @@ io.on('connection', function (socket) {
       this.broadcast.to(roomid).emit('rotate3d', {id: this.id, data:msg})
     }else{
       this.disconnect(true)
+    }
+  })
+
+  socket.on('control', (data) => {
+    const { type, payload } = data
+    if (type === 'moveMouse') {
+      // 把屏幕的高分为 60 度，然后计算出来当前位置
+      const { width, height } = robotjs.getScreenSize()
+      const y = height - Math.tan(payload.y / 180 * Math.PI) * height; // height - height / 60 * payload.y
+      const x = Math.tan(payload.x / 180 * Math.PI) * width / 2 + width / 2
+      robotjs.moveMouse(x, y)
+      return
+    }
+    if (type === 'mouseToggle') {
+      robotjs.mouseToggle(payload.down, payload.button)
+      return
+    }
+    if (type === 'mouseClick') {
+      robotjs.mouseClick(payload.button, payload.double)
+      return
+    }
+    if (type === 'scrollMouse') {
+      robotjs.scrollMouse(payload.x * 6, payload.y * 6)
+      return
+    }
+    if (type === 'typeString') {
+      robotjs.typeString(payload.value)
+      return
+    }
+    if (type === 'keyTap') {
+      robotjs.keyTap(payload.key)
+      return
     }
   })
 })

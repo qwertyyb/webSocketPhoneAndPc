@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no,viewport-fit=cover" />
+  <meta name="renderer" content="webkit">
+  <meta http-equiv = "X-UA-Compatible" content = "chrome=1" >
+  <title>设备</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    html, body {
+      height: 100%;
+      overscroll-behavior: none;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+    body > * {
+      width: 100%;
+    }
+    #input-field {
+      margin: 0 auto;
+      width: calc(100% - 40px);
+    }
+    .touch-pad-wrapper {
+      flex: 1;
+      user-select: none;
+      position: relative;
+    }
+    .touch-pad {
+      width: calc(100% - 50px);
+      height: calc(100% - 50px);
+      background: rgba(0, 0, 0, .3);
+    }
+    .touch-vertical-scrollbar {
+      position: absolute;
+      right: 10px;
+      top: 0;
+      bottom: 0;
+      width: 30px;
+      background: rgba(0, 0, 0, .3);
+    }
+    .touch-horizontal-scrollbar {
+      position: absolute;
+      bottom: calc(env(safe-area-inset-bottom) + 10px);
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: rgba(0, 0, 0, .3);
+    }
+  </style>
+</head>
+<body>
+  <div class="action-btns">
+    <button id="permission-btn">开始</button>
+    <button id="stop-btn">停止</button>
+    <button id="correct-btn">校准</button>
+  </div>
+  <div id="info"></div>
+  <input type="text" id="input-field">
+  <div class="touch-pad-wrapper">
+    <div class="touch-pad">
+    </div>
+    <div class="touch-vertical-scrollbar"></div>
+    <div class="touch-horizontal-scrollbar"></div>
+  </div>
+  <script src="lib/socket.io.js"></script>
+  <script src="script/control.js"></script>
+</body>
+</html>
